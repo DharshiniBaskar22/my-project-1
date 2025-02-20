@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .menu-item {
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 30%;
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        .menu-item img {
+            width: 100%;
+            border-radius: 10px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .menu-item h3 {
+            margin: 10px 0;
+        }
+        .menu-item p {
+            margin: 10px 0;
+        }
+        .menu-item button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .menu-item button:hover {
+            background-color: #45a049;
+        }
+        .cart {
+            background-color: white;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            border-radius: 10px;
+        }
+        .cart h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .cart ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .cart ul li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .cart button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Food Order</h1>
+    <p>Order your favorite food online</p>
+</header>
+
+<div class="container">
+    <div class="menu-item">
+        <img src="https://via.placeholder.com/400x300" alt="Biriyani">
+        <h3>Biriyani</h3>
+        <p>$120</p>
+        <button onclick="addToCart('Biriyani', 120)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://via.placeholder.com/400x300" alt="chicken rice">
+        <h3>chicken rice</h3>
+        <p>$90</p>
+        <button onclick="addToCart('chicken rice', 90)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="https://via.placeholder.com/400x300" alt="Pasta">
+        <h3>Pasta</h3>
+        <p>$60</p>
+        <button onclick="addToCart('Pasta', 10.99)">Add to Cart</button>
+    </div>
+</div>
+
+<div class="cart" id="cart">
+    <h2>Your Cart</h2>
+    <ul id="cartItems">
+        <!-- Cart items will be added here -->
+    </ul>
+    <button onclick="clearCart()">Clear Cart</button>
+</div>
+
+<script>
+    let cart = [];
+
+    function addToCart(item, price) {
+        cart.push({ item, price });
+        displayCart();
+    }
+
+    function displayCart() {
+        const cartItemsContainer = document.getElementById('cartItems');
+        cartItemsContainer.innerHTML = '';
+        
+        let totalPrice = 0;
+
+        cart.forEach((cartItem, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                ${cartItem.item} - $${cartItem.price.toFixed(2)}
+                <button onclick="removeItem(${index})">Remove</button>
+            `;
+            cartItemsContainer.appendChild(li);
+            totalPrice += cartItem.price;
+        });
+
+        // Add total price to the cart
+        const totalPriceElement = document.createElement('li');
+        totalPriceElement.innerHTML = `<strong>Total: $${totalPrice.toFixed(2)}</strong>`;
+        cartItemsContainer.appendChild(totalPriceElement);
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        displayCart();
+    }
+
+    function clearCart() {
+        cart = [];
+        displayCart();
+    }
+</script>
+
+</body>
+</html>
